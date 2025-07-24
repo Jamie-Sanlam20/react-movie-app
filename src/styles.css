@@ -112,3 +112,14 @@
   justify-content: space-around;
   gap: 32px;
 }
+
+.movie-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  max-width: 500px;
+  margin: 0 auto;
+
+  margin-bottom: 32px;
+}

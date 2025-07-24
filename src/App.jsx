@@ -20,9 +20,7 @@ export default function App() {
   );
 }
 
-function MovieList() {
-  const movies = [
-    {
+const INITIAL_MOVIES = [{
       id: "99",
       name: "Vikram",
       poster:
@@ -129,13 +127,72 @@ function MovieList() {
       rating: 8.8,
       trailer: "https://youtu.be/NgsQ8mVkN8w",
       id: "109",
-    },
-  ];
+    },]
+
+// Smart Parent
+function MovieList() {
+  const [movies, setMovies] = useState(INITIAL_MOVIES);
+
+   // input box - variable
+  const [name, setName] = useState("");
+  const [poster, setPoster] = useState("");
+  const [rating, setRating] = useState("");
+  const [summary, setSummary] = useState("");
+
+  const addMovie = (event) => {
+    event.preventDefault(); // Prevent Refresh Behaviour (disappears on Refresh)
+    console.log("addMovie", name, poster); // Check
+
+    const newMovie = {
+      name: name,
+      poster: poster,
+      summary: summary,
+      rating: rating,
+    };
+
+    // Copy the existing movies + New movie
+    setMovies([...movies, newMovie]);
+  };
+
   return (
-    <div className="movie-list-container">
+    <div>
+      <form onSubmit={addMovie} className="movie-form-container">
+        <input
+          onChange={(event) => setName(event.target.value)}
+          type="text"
+          placeholder="Name"
+        />
+        <input
+          onChange={(event) => setPoster(event.target.value)}
+          type="text"
+          placeholder="Poster"
+        />
+
+        <input
+          onChange={(event) => setRating(event.target.value)}
+          type="text"
+          placeholder="Rating"
+        />
+
+        <input
+          onChange={(event) => setSummary(event.target.value)}
+          type="text"
+          placeholder="Summary"
+        />
+
+        {/* Task 1.2 Add Box to the List */}
+        <button type="submit">➕ Add</button>
+      </form>
+
+      {/* <h1>
+        {name} | {poster}|{rating}|{summary}
+      </h1> */}
+
+    <section className="movie-list-container">
       {movies.map((movie) => (
         <Movie {...movie} />
       ))}
+    </section>
     </div>
   );
 }
@@ -150,8 +207,8 @@ function Movie({ poster, name, rating, summary }) {
 
   const [show, setShow] = useState(true);
 
-  // const showSummary = {
-  //   display: none,
+  // const summaryStyles = {
+  //   display: show ? "block" : "none",
   // };
 
   return (
@@ -164,8 +221,14 @@ function Movie({ poster, name, rating, summary }) {
             ⭐ {rating}{" "}
           </p>
         </div>
-        <button onClick={() => setShow(show(false))}>Toggle Summary</button>
-        <p className="movie-summary">{summary}</p>
+        <button onClick={() => setShow(!show)}>Toggle Summary</button>
+
+        {/* Conditional Styling - Hidden in DOM */}
+        {/* <p>{show + ""}</p> */}
+        {/* <p style={summaryStyles} className="movie-summary">{summary}</p> */}
+
+        {/* Conditional Rendering - Removes from DOM */}
+        {show ? <p class="movie-summary">{summary}</p> : ""}
       </div>
     </div>
   );
