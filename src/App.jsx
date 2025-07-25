@@ -1,9 +1,10 @@
-import { ColorGame } from "./ColorGame";
+import { Routes, Navigate, Route, Link } from "react-router";
+import { ColorGame } from "./pages/ColorGame";
 import { MsgList } from "./MsgList";
 import "./styles.css";
-import { MovieList } from "./MovieList";
-import { UserList } from "./UserList";
-import { Routes, Route, Link } from "react-router";
+import { MovieList } from "./pages/MovieList";
+import { UserList } from "./pages/UserList";
+import { Home } from "./pages/Home";
 
 // Component = UI + Logic
 // Default Export
@@ -31,22 +32,16 @@ export default function App() {
 
       {/* Routing Setup */}
       <Routes>
+        {/* Task: /films -> /movies */}
+        <Route path="/films" element={<Navigate to="/movies" replace />} />
         <Route path="movies" element={<MovieList />} />
         <Route path="color-game" element={<ColorGame />} />
         <Route path="users" element={<UserList />} />
+
+        {/* Redirect */}
+        <Route path="/home" element={<Navigate to="/" replace />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>
   );
-}
-
-function Home() {
-  return <h1> Welcome to Movies App </h1>;
-}
-
-// Task
-// 1. /movies - MovieList
-// 2. /color-game
-// 3. /users
-// 4. /home -> Welcome to movie app
-
+};
