@@ -3,8 +3,8 @@ import { INITIAL_MOVIES } from "../components/INITIAL_MOVIES";
 import { Movie } from "../components/Movie";
 
 // Smart Parent
-export function MovieList() {
-  const [movies, setMovies] = useState(INITIAL_MOVIES);
+export function MovieList({ movies, setMovies}) {
+  // const [movies, setMovies] = useState(INITIAL_MOVIES);
 
   // input box - variable
   const [name, setName] = useState("");

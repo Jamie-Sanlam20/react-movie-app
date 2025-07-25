@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // Presentation 
-export function Movie({ poster, name, rating, summary }) {
+export function Movie({ movie:{ poster, name, rating, summary }}) {
   // Inline styles
   // Conditional Styling
   const ratingStyles = {

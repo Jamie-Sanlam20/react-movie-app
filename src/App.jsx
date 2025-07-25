@@ -1,26 +1,19 @@
-import { Routes, Navigate, Route, Link } from "react-router";
+import { Routes, Navigate, Route, Link, useParams } from "react-router";
 import { ColorGame } from "./pages/ColorGame";
-import { MsgList } from "./pages/MsgList";
 import "./styles.css";
 import { MovieList } from "./pages/MovieList";
 import { UserList } from "./pages/UserList";
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
+import { useState } from "react";
+import { INITIAL_MOVIES } from "./components/INITIAL_MOVIES";
 
 // Component = UI + Logic
 // Default Export
 export default function App() {
-  // Link - no refresh
+  const [movies, setMovies] = useState(INITIAL_MOVIES); // Lifting the state up - movies are stored here
   return (
     <div className="App">
-      {/* <MsgList /> */}
-
-      {/* <UserList /> */}
-
-      {/* <ColorGame /> */}
-      {/* <MovieList /> */}
-
-      {/* <a href="/about">About with Anchor</a> |  */}
 
       <nav>
         <ul>
@@ -35,7 +28,9 @@ export default function App() {
       <Routes>
         {/* Task: /films -> /movies */}
         <Route path="/films" element={<Navigate to="/movies" replace />} />
-        <Route path="movies" element={<MovieList />} />
+        <Route path="movies" element={<MovieList movies={movies} setMovies={setMovies} />} />
+        <Route path="movies/:id" element={<MovieDetails movies={movies} />} />
+
         <Route path="color-game" element={<ColorGame />} />
         <Route path="users" element={<UserList />} />
 
@@ -51,3 +46,30 @@ export default function App() {
   );
 };
 
+// Extract the id from URL - useParams() - 'use' - hook
+function MovieDetails({ movies }) {
+  const { id } = useParams();
+  const movie = movies[id];
+
+  return (
+    <div className="movie-detail-container">
+      <iframe
+        width="100%"
+        height="650"
+        src={movie.trailer}
+        title="WAR 2 | Official Trailer | Hrithik Roshan | NTR | Kiara Advani | Ayan Mukerji | YRF Spy Universe"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+      <div className="movie-details-content-container">
+        <div className="movie-specs">
+          <h2 className="movie-name">{movie.name}</h2>
+          <p className="movie-rating">⭐ {movie.rating}</p>
+        </div>
+        <p className="movie-summary">{movie.summary}</p>
+      </div>
+    </div>
+  );
+}
