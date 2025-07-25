@@ -1,6 +1,6 @@
 .App {
   font-family: sans-serif;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .pic {
@@ -17,11 +17,6 @@
 
 .greet {
   margin-bottom: 30px;
-}
-
-.App {
-  font-family: sans-serif;
-  text-align: center;
 }
 
 .user-pic {

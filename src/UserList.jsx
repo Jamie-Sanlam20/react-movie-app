@@ -22,8 +22,8 @@ export function UserList() {
   ];
   return (
     <div className="user-list-container">
-      {users.map((user) => (
-        <User {...user} />
+      {users.map((user, index) => (
+        <User key={index} {...user} />
       ))}
     </div>
   );

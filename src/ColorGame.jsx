@@ -32,8 +32,8 @@ export function ColorGame() {
       </div>
 
       <div className="color-box-list-container">
-        {colors.map((clr) => (
-          <ColorBox clr={clr} />
+        {colors.map((clr, index) => (
+          <ColorBox key={index} clr={clr} />
         ))}
         {/* <ColorBox />
             <ColorBox /> */}
