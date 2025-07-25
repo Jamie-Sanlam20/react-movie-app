@@ -1,4 +1,4 @@
-import { User } from "../User";
+import { User } from "../components/User";
 
 // Smart (Data) & Presentation Component - Pattern
 // Task: Use map & Make it DRY

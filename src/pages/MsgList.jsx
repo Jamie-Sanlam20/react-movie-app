@@ -1,4 +1,4 @@
-import { Msg } from "./Msg";
+import { Msg } from "../components/Msg";
 
 export function MsgList() {
   const names = ["Jeevan", "Ethan", "Siya", "Jamie"];
