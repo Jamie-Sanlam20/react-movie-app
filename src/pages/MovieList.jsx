@@ -1,65 +1,58 @@
-import { useState } from "react";
-import { INITIAL_MOVIES } from "../components/INITIAL_MOVIES";
+import { useEffect, useState } from "react";
 import { Movie } from "../components/Movie";
+import { useNavigate } from "react-router";
 
-// Smart Parent
-export function MovieList({ movies, setMovies}) {
-  // const [movies, setMovies] = useState(INITIAL_MOVIES);
+// Smart (Parent) - React to User action
+// No props
+export function MovieList() {
+  const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
 
-  // input box - variable
-  const [name, setName] = useState("");
-  const [poster, setPoster] = useState("");
-  const [rating, setRating] = useState("");
-  const [summary, setSummary] = useState("");
+  // Task: Get Movies from Mock API
+  // Make sure there is no infinite call to API
 
-  const addMovie = (event) => {
-    event.preventDefault(); // Prevent Refresh Behaviour (disappears on Refresh)
-    console.log("addMovie", name, poster); // Check
+  // JS Engine - Headups
+  async function getMovies() {
+    const response = await fetch(
+      "https://68871b87071f195ca97f46b5.mockapi.io/movies",
+      { method: "GET" }
+    );
+    const movies = await response.json();
+    setMovies(movies);
+  }
 
-    const newMovie = {
-      name: name,
-      poster: poster,
-      summary: summary,
-      rating: rating,
-    };
+  useEffect(() => {
+    getMovies();
+  }, []); // [] -> Empty Dependency array
 
-    // Copy the existing movies + New movie
-    setMovies([...movies, newMovie]);
+  const deleteMovie = async (id) => {
+    console.log("Deleting....", id); // id of the movie
+    const response = await fetch(
+      `https://68871b87071f195ca97f46b5.mockapi.io/movies/${id}`,
+      { method: "DELETE" }
+    );
+    const movie = await response.json();
+    console.log("Deleted", movie); // Todo: Use Notification (Better UX)
+    // Refresh Data
+    getMovies();
   };
 
   return (
     <div>
-      <form onSubmit={addMovie} className="movie-form-container">
-        <input
-          onChange={(event) => setName(event.target.value)}
-          type="text"
-          placeholder="Name" />
-        <input
-          onChange={(event) => setPoster(event.target.value)}
-          type="text"
-          placeholder="Poster" />
-
-        <input
-          onChange={(event) => setRating(event.target.value)}
-          type="text"
-          placeholder="Rating" />
-
-        <input
-          onChange={(event) => setSummary(event.target.value)}
-          type="text"
-          placeholder="Summary" />
-
-        {/* Task 1.2 Add Box to the List */}
-        <button type="submit">➕ Add</button>
-      </form>
-
-      {/* <h1>
-              {name} | {poster}|{rating}|{summary}
-            </h1> */}
-
       <section className="movie-list-container">
-        {movies.map((movie, index) => (
-          <Movie key={index} {...movie} />
+        {movies.map((movie) => (
+          <Movie
+            key={movie.id}
+            movie={movie}
+            deleteBtn={
+              <button onClick={() => deleteMovie(movie.id)}>🗑️ Delete</button>
+            }
+            editBtn={
+              <button onClick={() => navigate(`/movies/${movie.id}/edit`)}>
+                Edit
+              </button>
+            }
+          />
         ))}
       </section>
     </div>
